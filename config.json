@@ -1,0 +1,7 @@
+{
+        "token": "tokenhere",
+        "agent": "agenthere",
+        "prefix": ".",
+        "command": "del",
+        "verbose": true
+}

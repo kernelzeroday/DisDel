@@ -3,7 +3,7 @@ Discord dm/server deleter made in Go.
 
 ## Usage
 - `.del [amount]`
-  - `.del 10` - Deletes 10 messages (Counts other users)\
+  - `.del 10` - Deletes 10 messages (Counts other users)
 
 - `.del`
   - Deletes messages until none left (Counts other users)

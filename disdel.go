@@ -17,10 +17,10 @@ import (
 
 // Config file information
 type Config struct {
-	Token   string `json:"token"`   // User/bot token
-	Agent   string `json:"agent"`   // User-agent for request(s)
-	Prefix  string `json:"prefix"`  // Selfbot prefix
-	Command string `json:"command"` // Selfbot delete command
+	Token   string `json:"token"`   // User token
+	Agent   string `json:"agent"`   // User-agent
+	Prefix  string `json:"prefix"`  // User prefix
+	Command string `json:"command"` // User delete command
 	Verbose bool   `json:"verbose"` // Verbose mode
 }
 

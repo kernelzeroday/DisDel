@@ -133,8 +133,6 @@ func messageEvent(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 		channelName, err := s.Channel(m.ChannelID) // Channel name
 		checkErr(err, true)
-		guildName, err := s.Guild(m.GuildID) // Guild name
-		checkErr(err, true)
 
 		// Number check
 		if len(message) > 1 {
@@ -148,14 +146,20 @@ func messageEvent(s *discordgo.Session, m *discordgo.MessageCreate) {
 			for _, message := range messages {
 				// Author message only
 				if message.Author.ID == s.State.User.ID {
-					s.ChannelMessageEdit(m.ChannelID, message.ID, generateContent())             // Edit message
+					s.ChannelMessageEdit(message.ChannelID, message.ID, generateContent())       // Edit message
 					time.Sleep(time.Millisecond * time.Duration(timers[rand.Intn(len(timers))])) // Sleep
-
-					s.ChannelMessageDelete(m.ChannelID, message.ID) // Delete message
+					s.ChannelMessageDelete(message.ChannelID, message.ID)                        // Delete message
 
 					// Verbose prints information
 					if config.Verbose {
-						color.Printf(colors("[Y][*][E] Edited & deleted message in [B][%s] #%s[E] > [G]%s[E]\n"), guildName.Name, channelName.Name, message.Content)
+						// Guild check
+						if m.GuildID != "" {
+							guildName, err := s.Guild(m.GuildID) // Guild name
+							checkErr(err, true)
+							color.Printf(colors("[Y][*][E] Edited & deleted message in [B][%s] #%s[E] > [G]%s[E]\n"), guildName.Name, channelName.Name, message.Content)
+						} else {
+							color.Printf(colors("[Y][*][E] Edited & deleted message > [G]%s[E]\n"), message.Content)
+						}
 					}
 				}
 			}
@@ -170,15 +174,20 @@ func messageEvent(s *discordgo.Session, m *discordgo.MessageCreate) {
 				for _, message := range messages {
 					// Author message only
 					if message.Author.ID == s.State.User.ID {
-						s.ChannelMessageEdit(m.ChannelID, message.ID, generateContent())             // Edit message
+						s.ChannelMessageEdit(message.ChannelID, message.ID, generateContent())       // Edit message
 						time.Sleep(time.Millisecond * time.Duration(timers[rand.Intn(len(timers))])) // Sleep
-						s.ChannelMessageDelete(m.ChannelID, message.ID)                              // Delete message
-
-						messageID = message.ID // Store last message ID
+						s.ChannelMessageDelete(message.ChannelID, message.ID)                        // Delete message
 
 						// Verbose prints information
 						if config.Verbose {
-							color.Printf(colors("[Y][*][E] Edited & deleted message in [B][%s] #%s[E] > [G]%s[E]\n"), guildName.Name, channelName.Name, message.Content)
+							// Guild check
+							if m.GuildID != "" {
+								guildName, err := s.Guild(m.GuildID) // Guild name
+								checkErr(err, true)
+								color.Printf(colors("[Y][*][E] Edited & deleted message in [B][%s #%s][E] > [G]%s[E]\n"), guildName.Name, channelName.Name, message.Content)
+							} else {
+								color.Printf(colors("[Y][*][E] Edited & deleted message > [G]%s[E]\n"), message.Content)
+							}
 						}
 					}
 				}

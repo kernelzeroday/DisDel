@@ -1,5 +1,5 @@
 # DisDel
-Discord dm/server deleter made in Go.
+Discord dm/server message deleter made in Go.
 
 ## Usage
 - `.del [amount]`
